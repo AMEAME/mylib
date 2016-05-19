@@ -5,46 +5,56 @@
 #include "list.h"
 
 
-struct List List_new()
+struct List* List_new()
 {
-	struct List list;
-	list.data = (int *)malloc(40);//mallc( size ); sizeの単位はバイト
-	list.size = 0;
+	struct List *list;
+	list->data = (int *)malloc(10);
+	list->size = 0;
 	return list;
 }
 
-int list_add(struct List list, int value)
+struct List* List_new_with_size(int size)
 {
-	list.size++;
-	if (list.size >= 10)
+	struct List *list;
+	list->data = (int *)malloc(size);
+	list->size = 0;
+	return list;
+}
+
+struct List* list_add(struct List *list, int value)
+{
+	printf("1 %d\n", value);
+	list->size++;
+	printf("2 %d\n", value);
+	if (list->size >= 10)
 	{
-		list.data = realloc(list.data, list.size * 4);//おそらく int型 は 4byte
+		list->data = (int *)realloc(list->data, list->size + 1);
+		printf("3 %d\n", value);
 	}
-	list.data[list.size - 1] = value;
-	return 0;
+	printf("4 %d\n", value);
+	list->data[list->size - 1] = value;
+	printf("5 %d\n", value);
+	return list;
 }
 
-void list_delete(struct List list,int value)
+struct List* list_delete(struct List *list, int value)
 {
 	printf("del");
 }
 
-void list_deleteAt(struct List list,int index)
+struct List* list_deleteAt(struct List* list, int index)
 {
 	printf("del");
 }
 
-void list_dispose(struct List list)
+struct List* list_dispose(struct List* list)
 {
 	printf("dis");
 }
 
-char* list_to_s(struct List list)
+char* list_to_s(struct List* list)
 {
 	char *str;
-	itoa(list.size, str, 10);
+	itoa(list->size, str, 10);
 	return str;
 }
-
-
-
