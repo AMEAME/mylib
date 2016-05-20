@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "list.h"
+#include "functions.h"
 
 int main()
 {
@@ -9,12 +10,11 @@ int main()
 	list_add(list, 1);
 	
 	int i;
-	for (i = 0; i < 10; i++)
-	{
+	times(10, i, {
 		printf("s %d\n", i);
-		list_add(list, i);
+		// list_add(list, i);
 	  printf("e %d\n", i);
-	}
+	});
 	
 	free(list->data);
 	// for (i = 0; i < 100; i++)
