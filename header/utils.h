@@ -1,3 +1,5 @@
+#pragma once
+
 #if defined(__GNUC__)
 #  if defined(__cplusplus)
 #    define LAMBDA(rettype, ARG_LIST, BODY)           \
