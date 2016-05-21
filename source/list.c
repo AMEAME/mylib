@@ -1,64 +1,74 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "list.h"
+#include "error.h"
+#include "utils.h"
 
-
-List* List_new()
+List List_new()
 {
 	List list;
-	list.data = (int *)malloc(10);
+	list.data = (int *)malloc(40);
 	list.size = 0;
-	List *p_list = &list;
-	return p_list;
-}
-
-List* List_new_with_size(int size)
-{
-	List list;
-	list.data = (int *)malloc(size);
-	list.size = 0;
-	List *p_list = &list;
-	return p_list;
+	return list;
 }
 
 List* list_add(List *p_list, int value)
 {
-	printf("1 %d %d\n", value, p_list->size);
 	p_list->size++;
-	printf("2 %d %d\n", value, p_list->size);
-	if (p_list->size >= 10)
+	if (p_list->size > 10)
 	{
-		p_list->data = (int *)realloc(p_list->data, p_list->size + 1);
-		printf("3 %d %d\n", value, p_list->size);
+		p_list->data = (int *)realloc(p_list->data, (p_list->size + 1) * 4);
 	}
-	printf("4 %d %d\n", value, p_list->size);
 	p_list->data[p_list->size - 1] = value;
-	printf("5 %d\n", value);
 	return p_list;
 }
 
-List* list_delete(List *p_list, int value)
+int list_delete(List *p_list, int value)
 {
-	printf("del");
-	return p_list;
+	int i;
+	for (i = 0; i < p_list->size; i++)
+	{
+		if (value == p_list->data[i])
+		{
+			list_deleteAt(p_list, i);
+			return i;
+		}
+	}
+	return -1;
 }
 
-List* list_deleteAt(List* p_list, int index)
+int list_deleteAt(List* p_list, int index)
 {
-	printf("del");
-	return p_list;
+	if (index_error(index, p_list->size)) return 0;
+	int i;
+	for (i = index; i < p_list->size - 1; i++)
+	{
+		p_list->data[i] = p_list->data[i + 1];
+	}
+	p_list->size--;
+	p_list->data = (int *)realloc(p_list->data, (p_list->size - 1) * 4);
+	return 1;
 }
 
-List* list_dispose(List* p_list)
+void list_show(List *p_list)
 {
-	printf("dis");
-	return p_list;
+	printf("[ ");
+	each_with_index(p_list, {
+		if (i == p_list->size - 1)
+		{
+			printf("%d ", e);
+		}
+		else
+		{
+		printf("%d, ", e);
+		}
+  });
+	printf("]\n");
 }
 
-char* list_to_s(List* p_list)
+void list_dispose(List* p_list)
 {
-	char *str = "[]";
-	
-	return str;
+	free(p_list->data);
 }
