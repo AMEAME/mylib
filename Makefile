@@ -1,19 +1,22 @@
-# Makefile for main.c
-
-bin\main: bin\main.o bin\list.o bin\error.o bin\utils.o
-	gcc -o bin\main bin\main.o bin\list.o bin\error.o bin\utils.o
-
-bin\main.o: source\main.c bin\utils.o
-	gcc -c source\main.c -o bin\main.o bin\utils.o -Iheader
-	
-bin\list.o: source\list.c
-	gcc -c source\list.c -o bin\list.o -Iheader
-
-bin\error.o: source\error.c
-	gcc -c source\error.c -o bin\error.o -Iheader
-
-bin\utils.o: source\utils.c
-	gcc -c source\utils.c -o bin\utils.o -Iheader
-
+CC = gcc
+vpath %.h include
+vpath %.c src
+CFLAGS = -I include
+TARGETS = main
+PROGRAM = main
+SOURCES = \
+	main.c \
+	str.c \
+	utils.c \
+	error.c \
+	list.c
+  
+OBJECTS = $(subst .c,.o,$(SOURCES))
+main: $(OBJECTS)
+	$(CC) $(OBJECTS) $(CFLAGS) -o $(PROGRAM)
+	rm -rf *.o
+  
+.PHONY: clean
 clean:
-	rm -rf bin
+	rm -rf *.exe *.o *.d
+  
