@@ -2,8 +2,7 @@ CC = gcc
 vpath %.h include
 vpath %.c src
 CFLAGS = -I include
-TARGETS = main
-PROGRAM = main
+TARGETS = bin\main
 SOURCES = \
 	main.c \
 	str.c \
@@ -13,7 +12,7 @@ SOURCES = \
   
 OBJECTS = $(subst .c,.o,$(SOURCES))
 main: $(OBJECTS)
-	$(CC) $(OBJECTS) $(CFLAGS) -o $(PROGRAM)
+	$(CC) $(OBJECTS) $(CFLAGS) -o $(TARGETS)
 	rm -rf *.o
   
 .PHONY: clean
