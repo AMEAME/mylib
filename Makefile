@@ -17,5 +17,5 @@ main: $(OBJECTS)
   
 .PHONY: clean
 clean:
-	rm -rf *.exe *.o *.d
+	rm -rf bin/*.exe *.o *.d
   

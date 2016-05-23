@@ -8,14 +8,12 @@
 
 int main()
 {
-	string s1 = "ikeuchi";
-	string s2 = "kasmo";
+	string s1 = "keuchi";
+	string s2 = "keu";
 	
-	string s3 = concatl(s1, to);
-	p(s3);
+	int n = sequalQ(s1, s2);
 	
-	string s4 = concat(s3, s2);
-	p(s4);
+	pi(n);
 	
 	return 0;
 }

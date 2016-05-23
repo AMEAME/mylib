@@ -25,4 +25,5 @@ for(i = 0; i < l->size;\
 i++) { e = l->data[i]; block; } }
 
 void* p(void* argv);
-void* p_i(int argv);
+void* pi(int argv);
+void* pc(char argv);
