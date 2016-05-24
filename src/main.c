@@ -9,10 +9,8 @@
 int main()
 {
 	string s1 = "keuchi";
-	string s2 = "keu";
-	
-	int n = sequalQ(s1, s2);
-	
+	string s2 = "ch";
+	int n = sindex(s1, s2);
 	pi(n);
 	
 	return 0;

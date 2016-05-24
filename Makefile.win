@@ -2,7 +2,7 @@ CC = gcc
 vpath %.h include
 vpath %.c src
 CFLAGS = -I include
-TARGETS = bin\main
+TARGETS = main
 SOURCES = \
 	main.c \
 	str.c \
@@ -17,5 +17,5 @@ main: $(OBJECTS)
   
 .PHONY: clean
 clean:
-	rm -rf bin/*.exe *.o *.d
+	rm -rf *.exe *.o *.d
   

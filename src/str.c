@@ -1,6 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 #include "str.h"
 
 char char_at(string str, int index)
@@ -22,33 +19,11 @@ string str_concat(string str1, string str2, string str3)
 
 int sindex(string str1, string str2)
 {
-  int i;
-  for (i = 0; i < slength(str1); i++)
-  {
-    if (char_at(str1, i) == char_at(str2, 0))
-    { 
-      int j, k, count = 0;
-      if (slength(str1) == i + 1)
-      {
-        return slength(str2) == 1 ? i : -1;
-      }
-      for (j = i + 1, k = 1; k < slength(str2); j++, k++)
-      {
-        if (j >= slength(str1))
-        {
-          count = 1;
-          break;
-        }
-        
-        if (!char_at(str1, j) == char_at(str2, k))
-        {
-          count++;
-        }
-      }
-      if (count == 0) return i;
-    }
+  string str = strstr(str1, str2);
+  if (str == NULL) {
+    return -1;
   }
-  return -1;
+  return (int)(str - str1);
 }
 
 int sincludeQ(string str1, string str2)
@@ -101,6 +76,11 @@ string str_delete_at(string str, int index)
 }
 
 string str_reverse(string str)
+{
+  
+}
+
+string *str_split(string str1, string str2)
 {
   
 }

@@ -1,5 +1,11 @@
 #pragma once
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#include "error.h"
+
 #define string char*
 
 #define sconcatl(str1, literal)                 \
@@ -34,3 +40,4 @@ string str_slice(string str);
 string str_delete(string str1, string str2);
 string str_delete_at(string str, int index);
 string str_reverse(string str);
+string *str_split(string str1, string str2);
