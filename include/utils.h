@@ -24,6 +24,7 @@ __i__++) { e = l->data[__i__]; block; } }
 for(i = 0; i < l->size;\
 i++) { e = l->data[i]; block; } }
 
-void* p(void* argv);
+#define p(arg) printf("%s", type(arg))
+
 void* pi(int argv);
 void* pc(char argv);

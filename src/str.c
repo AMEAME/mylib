@@ -42,7 +42,7 @@ int sequalQ(string str1, string str2)
   int i, count = 0;
   for (i = 0; i < slength(str1); i++)
   {
-    if (!char_at(str1, i) == char_at(str2, i))
+    if (char_at(str1, i) != char_at(str2, i))
     {
       count++;
     }
