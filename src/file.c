@@ -29,6 +29,8 @@ int _file_get_size(char *file_name)
     {                                             \
         char *text = malloc(sizeof(char)          \
             * (_file_get_size(file_name) + 1));   \
+        char *nil = "";                           \
+        strcpy(text, nil);                        \
         return _file_read_text(text, file_name);  \
     }                                             \
     _readtext(file_name);                         \
@@ -52,6 +54,7 @@ int main(int argc, char **argv)
 {
     if (argc != 2) return 1;
     char *file_name = argv[1];
-    puts(read(file_name));
+    char *text = read(file_name);
+    puts(text);
     return 0;
 }
