@@ -1,10 +1,4 @@
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 #include "list.h"
-#include "error.h"
-#include "utils.h"
 
 list List_new()
 {

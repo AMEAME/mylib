@@ -1,5 +1,5 @@
-#include <stdio.h>
 #include "error.h"
+
 
 int index_error(int arg1, int arg2)
 {

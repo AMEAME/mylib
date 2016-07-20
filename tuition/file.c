@@ -2,19 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define read(file_name)                           \
-({                                                \
-    char *_readtext(char *file_name)              \
-    {                                             \
-        char *text = malloc(sizeof(char)          \
-            * (_file_get_size(file_name) + 1));   \
-        char *nil = "";                           \
-        strcpy(text, nil);                        \
-        return _file_read_text(text, file_name);  \
-    }                                             \
-    _readtext(file_name);                         \
-})
-
 
 void _file_error(char *file_name)
 {
@@ -36,11 +23,14 @@ int _file_get_size(char *file_name)
     return counter;
 }
 
-char *_file_read_text(char *text, char *file_name)
+char *read(char *file_name)
 {
-    _file_error(file_name);
-    FILE *fp = fopen(file_name, "r");
     char ch;
+    char *text = malloc(sizeof(char)
+        * (_file_get_size(file_name) + 1));
+    FILE *fp = fopen(file_name, "r");
+    char *nil = "";
+    strcpy(text, nil);
     while ((ch = getc(fp)) != EOF)
     {
         char s[] = {ch, '\0'};
