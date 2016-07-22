@@ -54,7 +54,6 @@ int main(int argc, char **argv)
 {
     if (argc != 2) return 1;
     char *file_name = argv[1];
-    char *text = read(file_name);
-    puts(text);
+    puts(read(file_name));
     return 0;
 }
