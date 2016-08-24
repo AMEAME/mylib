@@ -1,9 +1,9 @@
-#pragma once
+#ifndef STR_H
+#define STR_H
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
 #include "error.h"
 
 #define string char*
@@ -41,3 +41,5 @@ string str_delete(string str1, string str2);
 string str_delete_at(string str, int index);
 string str_reverse(string str);
 string *str_split(string str1, string str2);
+
+#endif

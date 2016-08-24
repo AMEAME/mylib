@@ -1,4 +1,7 @@
-#pragma once
+#ifndef UTILS_H
+#define UTILS_H
+
+#include <stdio.h>
 
 #if defined(__GNUC__)
 #  if defined(__cplusplus)
@@ -28,3 +31,5 @@ i++) { e = l->data[i]; block; } }
 
 void* pi(int argv);
 void* pc(char argv);
+
+#endif
