@@ -24,7 +24,7 @@ FILE *open_file(FILE *file, char *file_name, char *mode) {
 pgm_t read_pgm(char *file_name) {
   pgm_t pgm;
   FILE *file = NULL;
-  file = open_file(file, file_name, "r");
+  file = open_file(file, file_name, "rb");
 
   char *str = (char *)malloc(1000 * sizeof(char));
   fscanf(file,"%s", str);
@@ -47,7 +47,7 @@ pgm_t read_pgm(char *file_name) {
 
 void write_pgm(char *file_name, pgm_t pgm) {
   FILE* file = NULL;
-  file = open_file(file, file_name, "w");
+  file = open_file(file, file_name, "wb");
   fprintf(file,"%s\n%d %d\n%d\n", pgm.magic_number, pgm.width
           , pgm.height, pgm.rgb);
 
