@@ -26,7 +26,7 @@ pgm_t read_pgm(char *file_name) {
   FILE *file = NULL;
   file = open_file(file, file_name, "r");
 
-  char *str = (char *)malloc(3 * sizeof(char));
+  char *str = (char *)malloc(1000 * sizeof(char));
   fscanf(file,"%s", str);
   pgm.magic_number = str;
   fscanf(file,"%d %d", &pgm.width, &pgm.height);
@@ -63,31 +63,31 @@ void write_pgm(char *file_name, pgm_t pgm) {
 
 pgm_t edit_pgm(pgm_t pgm1, pgm_t pgm2) {
   unsigned char **duped = (unsigned char **)malloc(pgm1.width * pgm1.height
-                            * sizeof(unsigned char));
+                          * sizeof(unsigned char));
   int y, x;
   for (y = 0; y < pgm1.height; y++) {
-    duped[y] = (unsigned char *)malloc(pgm1.width * sizeof(char));
+    duped[y] = (unsigned char *)malloc(pgm1.width * sizeof(unsigned char));
     for (x = 0; x < pgm1.width; x++) {
       duped[y][x] = pgm1.data[y][x];
     }
     free(pgm1.data[y]);
   }
   free(pgm1.data);
-  int pgm1_width = pgm1.width;
-  int pgm1_height = pgm1.height;
-  pgm1.width += pgm2.width;
-  pgm1.height = pgm1.height >= pgm2.height ? pgm1.height : pgm2.height;
+  unsigned int pgm1_width = pgm1.width;
+  unsigned int pgm1_height = pgm1.height;
+  pgm1.height += pgm2.height;
+  pgm1.width = pgm1.width >= pgm2.width ? pgm1.width : pgm2.width;
 
   pgm1.data = (unsigned char **)malloc(pgm1.width * pgm1.height
-                * sizeof(unsigned char));
+              * sizeof(unsigned char));
   for (y = 0; y < pgm1.height; y++) {
-    pgm1.data[y] = (unsigned char *)malloc(pgm1.width * sizeof(unsigned char));
+    pgm1.data[y] = (unsigned char *)malloc(pgm1.width * sizeof(char));
     for (x = 0; x < pgm1.width; x++) {
-      if (x < pgm1_width) {
-        pgm1.data[y][x] = y < pgm1_height ? duped[y][x] : pgm1.rgb;
+      if (y < pgm1_height) {
+        pgm1.data[y][x] = x < pgm1_width ? duped[y][x] : pgm1.rgb;
       } else {
-        pgm1.data[y][x] = y < pgm2.height ?
-                            pgm2.data[y][x - pgm1_width] : pgm1.rgb;
+        pgm1.data[y][x] = x < pgm2.width ?
+                          pgm2.data[y - pgm1_height][x] : pgm1.rgb;
       }
     }
   }

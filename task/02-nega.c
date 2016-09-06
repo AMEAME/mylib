@@ -26,7 +26,7 @@ pgm_t read_pgm(char *file_name) {
   FILE *file = NULL;
   file = open_file(file, file_name, "r");
 
-  char *str = (char *)malloc(3 * sizeof(char));
+  char *str = (char *)malloc(1000 * sizeof(char));
   fscanf(file,"%s", str);
   pgm.magic_number = str;
   fscanf(file,"%d %d", &pgm.width, &pgm.height);
@@ -62,18 +62,9 @@ void write_pgm(char *file_name, pgm_t pgm) {
 
 pgm_t edit_pgm(pgm_t pgm) {
   int y, x;
-  unsigned char **duped = (unsigned char **)malloc(pgm.width * pgm.height
-                          * sizeof(unsigned char));
   for (y = 0; y < pgm.height; y++) {
-    duped[y] = (unsigned char *)malloc(pgm.width * sizeof(unsigned char));
     for (x = 0; x < pgm.width; x++) {
-      duped[y][x] = pgm.data[y][x];
-    }
-  }
-  for (y = 0; y < pgm.height; y++) {
-    int y_v = pgm.height - y - 1;
-    for (x = 0; x < pgm.width; x++) {
-      pgm.data[y][x] = duped[y_v][x];
+      pgm.data[y][x] = pgm.data[y][x] == 0 ? pgm.rgb : pgm.data[y][x] * -1;
     }
   }
   return pgm;

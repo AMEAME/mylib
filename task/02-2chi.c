@@ -26,7 +26,7 @@ pgm_t read_pgm(char *file_name) {
   FILE *file = NULL;
   file = open_file(file, file_name, "r");
 
-  char *str = (char *)malloc(3 * sizeof(char));
+  char *str = (char *)malloc(1000 * sizeof(char));
   fscanf(file,"%s", str);
   pgm.magic_number = str;
   fscanf(file,"%d %d", &pgm.width, &pgm.height);

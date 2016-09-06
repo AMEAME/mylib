@@ -26,7 +26,7 @@ pgm_t read_pgm(char *file_name) {
   FILE *file = NULL;
   file = open_file(file, file_name, "r");
 
-  char *str = (char *)malloc(3 * sizeof(char));
+  char *str = (char *)malloc(1000 * sizeof(char));
   fscanf(file,"%s", str);
   pgm.magic_number = str;
   fscanf(file,"%d %d", &pgm.width, &pgm.height);
@@ -60,30 +60,30 @@ void write_pgm(char *file_name, pgm_t pgm) {
   fclose(file);
 }
 
-pgm_t edit_pgm(pgm_t pgm) {
-  unsigned char **duped = (unsigned char **)malloc(pgm.width * pgm.height
-                          * sizeof(unsigned char));
-  int x, y;
-  for (y = 0; y < pgm.height; y++) {
-      duped[y] = (unsigned char *)malloc(pgm.width * sizeof(unsigned char));
-      for (x = 0; x < pgm.width; x++) {
-          duped[y][x] = pgm.data[y][x];
+pgm_t edit_pgm(pgm_t pgm1, pgm_t pgm2) {
+  int y, x;
+  if (pgm1.width >= pgm2.width && pgm1.height >= pgm2.height) {
+    int x_bias = (pgm1.width - pgm2.width) / 2;
+    int y_bias = (pgm1.height - pgm2.height) / 2;
+    for (y = 0; y < pgm2.height; y++) {
+      for (x = 0; x < pgm2.width; x++) {
+          pgm1.data[y + y_bias][x + x_bias] = pgm2.data[y][x];
       }
-      free(pgm.data[y]);
-  }
-
-  int tmp = pgm.width;
-  pgm.width = pgm.height;
-  pgm.height = tmp;
-
-  for (y = 0; y < pgm.height; y++) {
-      pgm.data[y] = (unsigned char *)malloc(pgm.width * sizeof(unsigned char));
-      for (x = 0; x < pgm.width; x++) {
-        int x_v = pgm.width - x - 1;
-          pgm.data[y][x] = duped[x_v][y];
+    }
+    return pgm1;
+  } else if (pgm1.width < pgm2.width && pgm1.height < pgm2.height) {
+    int x_bias = (pgm2.width - pgm1.width) / 2;
+    int y_bias = (pgm2.height - pgm1.height) / 2;
+    for (y = 0; y < pgm1.height; y++) {
+      for (x = 0; x < pgm1.width; x++) {
+          pgm2.data[y + y_bias][x + x_bias] = pgm1.data[y][x];
       }
+    }
+    return pgm2;
+  } else {
+    puts("input image size error");
+    exit(1);
   }
-  return pgm;
 }
 
 void free_pgm(pgm_t pgm) {
@@ -96,13 +96,16 @@ void free_pgm(pgm_t pgm) {
 }
 
 int main(int argc, char **argv) {
-  char *input_filename = argv[1];
-  char *output_filename = argv[2];
+  char *input_filename1 = argv[1];
+  char *input_filename2 = argv[2];
+  char *output_filename = argv[3];
   
-  pgm_t pgm = read_pgm(input_filename);
-  pgm = edit_pgm(pgm);
-  write_pgm(output_filename, pgm);
-  free_pgm(pgm);
+  pgm_t pgm1 = read_pgm(input_filename1);
+  pgm_t pgm2 = read_pgm(input_filename2);
+
+  pgm1 = edit_pgm(pgm1, pgm2);
+  write_pgm(output_filename, pgm1);
+  free_pgm(pgm1);
 
   return 0;
 }

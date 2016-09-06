@@ -26,18 +26,17 @@ pgm_t read_pgm(char *file_name) {
   FILE *file = NULL;
   file = open_file(file, file_name, "r");
 
-  char *str = (char *)malloc(3 * sizeof(char));
+  char *str = (char *)malloc(1000 * sizeof(char));
   fscanf(file,"%s", str);
   pgm.magic_number = str;
   fscanf(file,"%d %d", &pgm.width, &pgm.height);
   fscanf(file,"%d", &pgm.rgb);
 
   pgm.data = (unsigned char **)malloc(pgm.width * pgm.height
-             * sizeof(unsigned char));
+              * sizeof(unsigned char));
   int x, y;
   for(y = 0; y < pgm.height; y++) {
-    pgm.data[y] = (unsigned char *)malloc(pgm.width
-                  * sizeof(unsigned char));
+    pgm.data[y] = (unsigned char *)malloc(pgm.width * sizeof(unsigned char));
 	  for (x = 0; x < pgm.width; x++) {
       fscanf(file, "%c", &pgm.data[y][x]);
 	  }
@@ -49,8 +48,8 @@ pgm_t read_pgm(char *file_name) {
 void write_pgm(char *file_name, pgm_t pgm) {
   FILE* file = NULL;
   file = open_file(file, file_name, "w");
-  fprintf(file,"%s\n%d %d\n%d\n", pgm.magic_number, pgm.width,
-          pgm.height, pgm.rgb);
+  fprintf(file,"%s\n%d %d\n%d\n", pgm.magic_number, pgm.width
+          , pgm.height, pgm.rgb);
 
   int x, y;
   for (y = 0; y < pgm.height; y++) {
@@ -64,17 +63,24 @@ void write_pgm(char *file_name, pgm_t pgm) {
 pgm_t edit_pgm(pgm_t pgm) {
   unsigned char **duped = (unsigned char **)malloc(pgm.width * pgm.height
                           * sizeof(unsigned char));
-  int y, x;
+  int x, y;
   for (y = 0; y < pgm.height; y++) {
-    duped[y] = (unsigned char *)malloc(pgm.width * sizeof(unsigned char));
-    for (x = 0; x < pgm.width; x++) {
-      duped[y][x] = pgm.data[y][x];
-    }
-  }
-  for (y = 0; y < pgm.height; y++) {
+      duped[y] = (unsigned char *)malloc(pgm.width * sizeof(unsigned char));
       for (x = 0; x < pgm.width; x++) {
-          int x_v = pgm.width - x - 1;
-          pgm.data[y][x] = duped[y][x_v];
+          duped[y][x] = pgm.data[y][x];
+      }
+      free(pgm.data[y]);
+  }
+
+  int tmp = pgm.width;
+  pgm.width = pgm.height;
+  pgm.height = tmp;
+
+  for (y = 0; y < pgm.height; y++) {
+      pgm.data[y] = (unsigned char *)malloc(pgm.width * sizeof(unsigned char));
+      int y_v = pgm.height - y - 1;
+      for (x = 0; x < pgm.width; x++) {
+          pgm.data[y][x] = duped[x][y_v];
       }
   }
   return pgm;
@@ -92,7 +98,7 @@ void free_pgm(pgm_t pgm) {
 int main(int argc, char **argv) {
   char *input_filename = argv[1];
   char *output_filename = argv[2];
-
+  
   pgm_t pgm = read_pgm(input_filename);
   pgm = edit_pgm(pgm);
   write_pgm(output_filename, pgm);

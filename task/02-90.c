@@ -26,14 +26,14 @@ pgm_t read_pgm(char *file_name) {
   FILE *file = NULL;
   file = open_file(file, file_name, "r");
 
-  char *str = (char *)malloc(3 * sizeof(char));
+  char *str = (char *)malloc(1000 * sizeof(char));
   fscanf(file,"%s", str);
   pgm.magic_number = str;
   fscanf(file,"%d %d", &pgm.width, &pgm.height);
   fscanf(file,"%d", &pgm.rgb);
 
   pgm.data = (unsigned char **)malloc(pgm.width * pgm.height
-              * sizeof(unsigned char));
+             * sizeof(unsigned char));
   int x, y;
   for(y = 0; y < pgm.height; y++) {
     pgm.data[y] = (unsigned char *)malloc(pgm.width * sizeof(unsigned char));
@@ -61,24 +61,29 @@ void write_pgm(char *file_name, pgm_t pgm) {
 }
 
 pgm_t edit_pgm(pgm_t pgm) {
-    unsigned char **duped = (unsigned char **)malloc(pgm.width * pgm.height
-                            * sizeof(unsigned char));
-    int x, y;
-    for (y = 0; y < pgm.height; y++) {
-	    duped[y] = (unsigned char *)malloc(pgm.width * sizeof(unsigned char));
-	    for (x = 0; x < pgm.width; x++) {
-		    duped[y][x] = pgm.data[y][x];
-	    }
-    }
-    
-    for (y = 0; y < pgm.height; y++) {
-        int y_v = pgm.height - y - 1;
-        for (x = 0; x < pgm.width; x++) {
-            int x_v = pgm.width - x - 1;
-            pgm.data[y][x] = duped[y_v][x_v];
-        }
-    }
-    return pgm;
+  unsigned char **duped = (unsigned char **)malloc(pgm.width * pgm.height
+                          * sizeof(unsigned char));
+  int x, y;
+  for (y = 0; y < pgm.height; y++) {
+      duped[y] = (unsigned char *)malloc(pgm.width * sizeof(unsigned char));
+      for (x = 0; x < pgm.width; x++) {
+          duped[y][x] = pgm.data[y][x];
+      }
+      free(pgm.data[y]);
+  }
+
+  int tmp = pgm.width;
+  pgm.width = pgm.height;
+  pgm.height = tmp;
+
+  for (y = 0; y < pgm.height; y++) {
+      pgm.data[y] = (unsigned char *)malloc(pgm.width * sizeof(unsigned char));
+      for (x = 0; x < pgm.width; x++) {
+        int x_v = pgm.width - x - 1;
+          pgm.data[y][x] = duped[x_v][y];
+      }
+  }
+  return pgm;
 }
 
 void free_pgm(pgm_t pgm) {
