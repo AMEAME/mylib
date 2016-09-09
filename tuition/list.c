@@ -4,7 +4,7 @@
 
 typedef struct
 {
-	void *data;
+void *data;
 	int size;
     int *shape;
 } array;

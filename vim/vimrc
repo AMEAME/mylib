@@ -1,80 +1,41 @@
-" Note: Skip initialization for vim-tiny or vim-small.
-if 0 | endif
-
-filetype off
-
-if has('vim_starting')
-  if &compatible
-    set nocompatible               " Be iMproved
-  endif
-
-  set runtimepath+=~/.vim/bundle/neobundle.vim
+if &compatible
+  set nocompatible
 endif
+set runtimepath+=~/.vim/dein/repos/github.com/Shougo/dein.vim
+let g:dein#types#git#default_protocol = 'ssh'
 
-call neobundle#begin(expand('~/.vim/bundle/'))
+call dein#begin(expand('~/.vim/dein'))
 
-" originalrepos on github
-NeoBundle 'Shougo/neobundle.vim'
-NeoBundle 'Shougo/vimproc', {
-  \ 'build' : {
-    \ 'windows' : 'make -f make_mingw32.mak',
-    \ 'cygwin' : 'make -f make_cygwin.mak',
-    \ 'mac' : 'make -f make_mac.mak',
-    \ 'unix' : 'make -f make_unix.mak',
-  \ },
-  \ }
+call dein#add('Shougo/dein.vim')
+call dein#add('Shougo/vimproc.vim', {'build': 'make'})
 
-NeoBundle 'Townk/vim-autoclose'
-NeoBundle 'mattn/emmet-vim'
-NeoBundle 'thinca/vim-quickrun'
-NeoBundle 'grep.vim'
-NeoBundle 'scrooloose/syntastic'
-NeoBundle 'scrooloose/nerdtree'
-NeoBundle 'jistr/vim-nerdtree-tabs'
+call dein#add('Shougo/neocomplete.vim')
+call dein#add('Shougo/neomru.vim')
+call dein#add('Shougo/neosnippet')
 
-NeoBundle 'Xuyuanp/nerdtree-git-plugin'
-NeoBundle 'airblade/vim-gitgutter'
-NeoBundle 'vim-airline/vim-airline'
-NeoBundle 'bronson/vim-trailing-whitespace'
-NeoBundle 'Yggdroot/indentLine'
-NeoBundle 'ctrlpvim/ctrlp.vim'
-NeoBundle 'tyru/caw.vim'
-NeoBundle 'tyru/open-browser.vim'
-NeoBundle 'rhysd/accelerated-jk'
-NeoBundle 'Shougo/neocomplete.vim'
-NeoBundle 'Shougo/neosnippet.vim'
-NeoBundle 'Shougo/neosnippet-snippets'
-NeoBundle 'tpope/vim-endwise'
-NeoBundle 'osyo-manga/vim-monster'
-NeoBundleLazy 'todesking/ruby_hl_lvar.vim', {
-\   'autoload': {
-\     'filetypes': ['ruby']
-\   }   
-\ }
+call dein#add('scrooloose/nerdtree')
+call dein#add('jistr/vim-nerdtree-tabs')
+call dein#add('Xuyuanp/nerdtree-git-plugin')
+call dein#add('airblade/vim-gitgutter')
+call dein#add('bronson/vim-trailing-whitespace')
+call dein#add('Yggdroot/indentLine')
+call dein#add('thinca/vim-quickrun')
+call dein#add('tyru/caw.vim')
+call dein#add('tyru/open-browser.vim')
+call dein#add('rhysd/accelerated-jk')
+call dein#add('edkolev/tmuxline.vim')
+call dein#add('tpope/vim-fugitive')
+call dein#add('Shougo/neocomplete.vim')
+call dein#add('Shougo/neosnippet.vim')
+call dein#add('Shougo/neosnippet-snippets')
+call dein#add('tpope/vim-endwise')
+call dein#add('Townk/vim-autoclose')
 
-NeoBundle 'VimClojure'
-NeoBundle 'Shougo/vimshell'
-NeoBundle 'Shougo/unite.vim'
-NeoBundle 'Shougo/neocomplcache'
-NeoBundle 'Shougo/neosnippet'
-NeoBundle 'jpalardy/vim-slime'
-NeoBundle 'scrooloose/syntastic'
-NeoBundle 'Shougo/vimfiler.vim'
-NeoBundle 'itchyny/lightline.vim'
-NeoBundle 't9md/vim-textmanip'
+call dein#end()
 
-NeoBundle 'Shougo/unite.vim'
-NeoBundle 'ujihisa/unite-colorscheme'
-NeoBundle 'tomasr/molokai'
-""NeoBundle 'https://bitbucket.org/kovisoft/slimv'
 
-call neobundle#end()
-
-filetype plugin indent on     " required!
-filetype indent on
-syntax on
-
-NeoBundleCheck
-
+if dein#check_install()
+  call dein#install()
+endif
 
 nnoremap <silent><C-e> :NERDTreeToggle<CR>
